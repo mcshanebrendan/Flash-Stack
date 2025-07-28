@@ -1,0 +1,11 @@
+<h2>Flashcards</h2>
+<ul *ngIf="flashcards.length > 0; else loading">
+  <li *ngFor="let card of flashcards">
+    <strong>Q:</strong> {{ card.question }}<br />
+    <strong>A:</strong> {{ card.answer }}
+  </li>
+</ul>
+
+<ng-template #loading>
+  <p>Loading flashcards...</p>
+</ng-template>
