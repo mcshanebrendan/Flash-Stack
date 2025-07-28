@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Flashcard } from '../models/flashcard.model';
 import { Observable } from 'rxjs';
+import { Flashcard } from '../models/flashcard.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,5 +15,11 @@ export class FlashcardService {
     return this.http.get<Flashcard[]>(this.apiUrl);
   }
 
-  // Additional CRUD methods will go here later
+  createFlashcard(flashcard: Flashcard): Observable<Flashcard> {
+    return this.http.post<Flashcard>(this.apiUrl, flashcard);
+  }
+
+  deleteFlashcard(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }
