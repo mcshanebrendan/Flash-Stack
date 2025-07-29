@@ -1,12 +1,12 @@
 <h2>Flashcards</h2>
 
-<ul>
-  <li *ngFor="let card of flashcards">
-    <strong>Q:</strong> {{ card.question }}<br />
-    <strong>A:</strong> {{ card.answer }}
+<div *ngFor="let card of flashcards" class="flashcard">
+  <div><strong>Q:</strong> {{ card.question }}</div>
+  <div><strong>A:</strong> {{ card.answer }}</div>
+  <div class="flashcard-actions">
     <button (click)="deleteFlashcard(card.id)">Delete</button>
-  </li>
-</ul>
+  </div>
+</div>
 
 <h3>Add New Flashcard</h3>
 <input [(ngModel)]="newQuestion" placeholder="Question" />
