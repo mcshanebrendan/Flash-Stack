@@ -1,40 +1,112 @@
+body {
+  background: linear-gradient(120deg, #fdfbfb, #ebedee);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h2, h3 {
+  color: #1e3a8a;
+  text-align: center;
+  margin-top: 24px;
+}
+
+/* Container for layout */
+.flashcard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Flashcard styles */
 .flashcard {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  padding: 16px;
-  margin: 12px 0;
-  border-radius: 8px;
-  max-width: 500px;
-  transition: box-shadow 0.2s ease;
+  background: linear-gradient(135deg, #fef9c3, #fde68a);
+  border: 2px solid #fbbf24;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 14px 0;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 600px;
+  transition: transform 0.2s ease;
 }
 
 .flashcard:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: scale(1.02);
 }
 
+.question {
+  background-color: #d997fb;  
+  color: white;               
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.answer {
+  background-color: #bbf7d0;
+  padding: 12px;
+  border-radius: 8px;
+  font-style: italic;
+  color: #065f46;
+}
+
+/* Flashcard actions */
 .flashcard-actions {
-  margin-top: 8px;
+  margin-top: 12px;
   text-align: right;
 }
 
+/* Form styling */
+.add-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 600px;
+  width: 100%;
+  margin: 24px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  border: 2px solid #38bdf8;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
 input {
-  margin: 4px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  margin: 6px 0;
+  padding: 12px;
+  border: 1px solid #94a3b8;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
+/* Buttons */
 button {
-  margin-left: 4px;
-  padding: 8px 12px;
+  padding: 10px 16px;
   border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: white;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
 }
 
-button:hover {
-  background-color: #0056b3;
+.add-btn {
+  background-color: #34d399;
+  color: white;
+}
+
+.add-btn:hover {
+  background-color: #10b981;
+}
+
+.delete-btn {
+  background-color: #f87171;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #ef4444;
 }

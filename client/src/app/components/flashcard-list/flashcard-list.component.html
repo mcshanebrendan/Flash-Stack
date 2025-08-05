@@ -1,14 +1,18 @@
-<h2>Flashcards</h2>
+<h2>📚 FlashStack</h2>
 
-<div *ngFor="let card of flashcards" class="flashcard">
-  <div><strong>Q:</strong> {{ card.question }}</div>
-  <div><strong>A:</strong> {{ card.answer }}</div>
-  <div class="flashcard-actions">
-    <button (click)="deleteFlashcard(card.id)">Delete</button>
+<div class="flashcard-container">
+  <div *ngFor="let card of flashcards" class="flashcard">
+    <div class="question"><strong>Q:</strong> {{ card.question }}</div>
+    <div class="answer"><strong>A:</strong> {{ card.answer }}</div>
+    <div class="flashcard-actions">
+      <button class="delete-btn" (click)="deleteFlashcard(card.id)">Delete</button>
+    </div>
   </div>
 </div>
 
 <h3>Add New Flashcard</h3>
-<input [(ngModel)]="newQuestion" placeholder="Question" />
-<input [(ngModel)]="newAnswer" placeholder="Answer" />
-<button (click)="addFlashcard()">Add</button>
+<div class="add-form">
+  <input [(ngModel)]="newQuestion" placeholder="Question" />
+  <input [(ngModel)]="newAnswer" placeholder="Answer" />
+  <button class="add-btn" (click)="addFlashcard()">Add</button>
+</div>
