@@ -47,5 +47,16 @@ def delete_flashcard(flashcard_id):
     db.session.commit()
     return '', 204
 
+# Update a flashcard
+@app.route('/api/flashcards/<int:flashcard_id>', methods=['PUT'])
+def update_flashcard(flashcard_id):
+    card = Flashcard.query.get_or_404(flashcard_id)
+    data = request.json
+    card.question = data.get('question', card.question)
+    card.answer = data.get('answer', card.answer)
+    db.session.commit()
+    return jsonify(card.to_dict())
+
+
 if __name__ == '__main__':
     app.run(debug=True)
