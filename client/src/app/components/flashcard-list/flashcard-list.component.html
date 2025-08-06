@@ -2,11 +2,24 @@
 
 <div class="flashcard-container">
   <div *ngFor="let card of flashcards" class="flashcard">
-    <div class="question"><strong>Q:</strong> {{ card.question }}</div>
-    <div class="answer"><strong>A:</strong> {{ card.answer }}</div>
+    
+    <div *ngIf="editingId !== card.id">
+      <div class="question"><strong>Q:</strong> {{ card.question }}</div>
+      <div class="answer"><strong>A:</strong> {{ card.answer }}</div>
+    </div>
+
+    <div *ngIf="editingId === card.id">
+      <input [(ngModel)]="editedQuestion" placeholder="Edit question" />
+      <input [(ngModel)]="editedAnswer" placeholder="Edit answer" />
+    </div>
+
     <div class="flashcard-actions">
+      <button *ngIf="editingId !== card.id" class="edit-btn" (click)="startEditing(card)">Edit</button>
+      <button *ngIf="editingId === card.id" class="save-btn" (click)="saveEdit(card)">Save</button>
+      <button *ngIf="editingId === card.id" class="cancel-btn" (click)="cancelEdit()">Cancel</button>
       <button class="delete-btn" (click)="deleteFlashcard(card.id)">Delete</button>
     </div>
+
   </div>
 </div>
 
@@ -16,3 +29,4 @@
   <input [(ngModel)]="newAnswer" placeholder="Answer" />
   <button class="add-btn" (click)="addFlashcard()">Add</button>
 </div>
+

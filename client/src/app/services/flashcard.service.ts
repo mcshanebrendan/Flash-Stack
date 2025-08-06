@@ -22,4 +22,10 @@ export class FlashcardService {
   deleteFlashcard(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  updateFlashcard(card: Flashcard) {
+  return this.http.put<Flashcard>(`${this.apiUrl}/${card.id}`, card);
+}
+
+
 }
