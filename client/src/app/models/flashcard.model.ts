@@ -4,4 +4,5 @@ export interface Flashcard {
   lastReviewed?: string;
   correctCount?: number;
   id: number;
+  showAnswer?: boolean; 
 }

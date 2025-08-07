@@ -21,7 +21,7 @@ export class FlashcardListComponent implements OnInit {
   editedQuestion: string = '';
   editedAnswer: string = '';
 
-  constructor(private flashcardService: FlashcardService) {}
+  constructor(private flashcardService: FlashcardService) { }
 
   ngOnInit() {
     this.loadFlashcards();
@@ -81,5 +81,9 @@ export class FlashcardListComponent implements OnInit {
       card.answer = this.editedAnswer;
       this.cancelEdit();
     });
+  }
+
+  toggleAnswer(card: Flashcard) {
+    card.showAnswer = !card.showAnswer;
   }
 }
