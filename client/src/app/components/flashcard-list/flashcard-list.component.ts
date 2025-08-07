@@ -86,4 +86,12 @@ export class FlashcardListComponent implements OnInit {
   toggleAnswer(card: Flashcard) {
     card.showAnswer = !card.showAnswer;
   }
+
+  shuffleFlashcards() {
+    for (let i = this.flashcards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.flashcards[i], this.flashcards[j]] = [this.flashcards[j], this.flashcards[i]];
+    }
+  }
+
 }
