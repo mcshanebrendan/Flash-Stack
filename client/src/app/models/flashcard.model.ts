@@ -5,4 +5,5 @@ export interface Flashcard {
   correctCount?: number;
   id: number;
   showAnswer?: boolean; 
+  category?: string;
 }

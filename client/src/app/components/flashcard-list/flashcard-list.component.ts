@@ -13,13 +13,16 @@ import { FormsModule } from '@angular/forms';
 })
 export class FlashcardListComponent implements OnInit {
   flashcards: Flashcard[] = [];
+  allFlashcards: Flashcard[] = []; // keep full list for filtering
   newQuestion = '';
   newAnswer = '';
-
-  // For editing
+  newCategory = '';
   editingId: number | null = null;
   editedQuestion: string = '';
   editedAnswer: string = '';
+  editedCategory: string = '';
+  selectedCategory = '';
+  categories: string[] = [];
 
   constructor(private flashcardService: FlashcardService) { }
 
@@ -30,28 +33,50 @@ export class FlashcardListComponent implements OnInit {
   loadFlashcards() {
     this.flashcardService.getFlashcards().subscribe(cards => {
       this.flashcards = cards;
+      this.allFlashcards = [...cards];
+      this.extractCategories();
+      this.filterFlashcards();
     });
+  }
+
+  extractCategories() {
+    const uniqueCategories = new Set(this.allFlashcards.map(c => c.category || 'General'));
+    this.categories = Array.from(uniqueCategories);
+  }
+
+  filterFlashcards() {
+    if (!this.selectedCategory) {
+      this.flashcards = [...this.allFlashcards];
+    } else {
+      this.flashcards = this.allFlashcards.filter(card => (card.category || 'General') === this.selectedCategory);
+    }
   }
 
   addFlashcard() {
     if (!this.newQuestion.trim() || !this.newAnswer.trim()) return;
 
     const newFlashcard: Flashcard = {
-      id: 0, // Backend assigns ID
+      id: 0,
       question: this.newQuestion,
-      answer: this.newAnswer
+      answer: this.newAnswer,
+      category: this.newCategory.trim() || 'General'
     };
 
     this.flashcardService.createFlashcard(newFlashcard).subscribe(card => {
-      this.flashcards.push(card);
+      this.allFlashcards.push(card);
+      this.extractCategories();
+      this.filterFlashcards();
       this.newQuestion = '';
       this.newAnswer = '';
+      this.newCategory = '';
     });
   }
 
   deleteFlashcard(id: number) {
     this.flashcardService.deleteFlashcard(id).subscribe(() => {
-      this.flashcards = this.flashcards.filter(card => card.id !== id);
+      this.allFlashcards = this.allFlashcards.filter(card => card.id !== id);
+      this.extractCategories();
+      this.filterFlashcards();
     });
   }
 
@@ -59,12 +84,14 @@ export class FlashcardListComponent implements OnInit {
     this.editingId = card.id;
     this.editedQuestion = card.question;
     this.editedAnswer = card.answer;
+    this.editedCategory = card.category || 'General';
   }
 
   cancelEdit() {
     this.editingId = null;
     this.editedQuestion = '';
     this.editedAnswer = '';
+    this.editedCategory = '';
   }
 
   saveEdit(card: Flashcard) {
@@ -73,12 +100,17 @@ export class FlashcardListComponent implements OnInit {
     const updatedCard: Flashcard = {
       ...card,
       question: this.editedQuestion,
-      answer: this.editedAnswer
+      answer: this.editedAnswer,
+      category: this.editedCategory.trim() || 'General'
     };
 
-    this.flashcardService.updateFlashcard(updatedCard).subscribe(() => {
-      card.question = this.editedQuestion;
-      card.answer = this.editedAnswer;
+    this.flashcardService.updateFlashcard(updatedCard).subscribe(savedCard => {
+      // update local copies
+      const idxAll = this.allFlashcards.findIndex(c => c.id === card.id);
+      if (idxAll > -1) this.allFlashcards[idxAll] = savedCard;
+
+      this.extractCategories();
+      this.filterFlashcards();
       this.cancelEdit();
     });
   }
@@ -93,5 +125,4 @@ export class FlashcardListComponent implements OnInit {
       [this.flashcards[i], this.flashcards[j]] = [this.flashcards[j], this.flashcards[i]];
     }
   }
-
 }

@@ -16,11 +16,17 @@ class Flashcard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question = db.Column(db.String(200), nullable=False)
     answer = db.Column(db.String(200), nullable=False)
+    category = db.Column(db.String(100), nullable=True)  # ✅ New field
 
     def to_dict(self):
-        return {"id": self.id, "question": self.question, "answer": self.answer}
+        return {
+            "id": self.id,
+            "question": self.question,
+            "answer": self.answer,
+            "category": self.category or "General"
+        }
 
-# Initialize DB (create tables)
+# Initialize DB (create tables if not exists)
 with app.app_context():
     db.create_all()
 
@@ -34,7 +40,11 @@ def get_flashcards():
 @app.route('/api/flashcards', methods=['POST'])
 def create_flashcard():
     data = request.json
-    new_card = Flashcard(question=data['question'], answer=data['answer'])
+    new_card = Flashcard(
+        question=data['question'],
+        answer=data['answer'],
+        category=data.get('category', 'General')
+    )
     db.session.add(new_card)
     db.session.commit()
     return jsonify(new_card.to_dict()), 201
@@ -54,9 +64,9 @@ def update_flashcard(flashcard_id):
     data = request.json
     card.question = data.get('question', card.question)
     card.answer = data.get('answer', card.answer)
+    card.category = data.get('category', card.category)
     db.session.commit()
     return jsonify(card.to_dict())
-
 
 if __name__ == '__main__':
     app.run(debug=True)
