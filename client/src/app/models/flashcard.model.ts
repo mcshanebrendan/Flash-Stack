@@ -6,4 +6,5 @@ export interface Flashcard {
   id: number;
   showAnswer?: boolean; 
   category?: string;
+  flipped?: boolean;
 }

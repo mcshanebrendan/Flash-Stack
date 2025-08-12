@@ -16,26 +16,51 @@ h2, h3 {
   align-items: center;
 }
 
-/* Flashcard styles */
+/* Flip animation container */
 .flashcard {
-  background: linear-gradient(135deg, #fef9c3, #fde68a);
-  border: 2px solid #fbbf24;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 14px 0;
-  border-radius: 16px;
+  perspective: 1000px;
   width: 100%;
   max-width: 600px;
-  transition: transform 0.2s ease;
+  margin: 14px 0;
 }
 
-.flashcard:hover {
-  transform: scale(1.02);
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
 }
 
+.flashcard.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+/* Front & back faces */
+.flashcard-front, .flashcard-back {
+  position: absolute;
+  width: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.flashcard-front {
+  background: linear-gradient(135deg, #fef9c3, #fde68a);
+  border: 2px solid #fbbf24;
+}
+
+.flashcard-back {
+  background: linear-gradient(135deg, #bbf7d0, #86efac);
+  border: 2px solid #34d399;
+  transform: rotateY(180deg);
+}
+
+/* Question styling */
 .question {
-  background-color: #d997fb;  
-  color: white;               
+  background-color: #d997fb;
+  color: white;
   padding: 12px;
   border-radius: 8px;
   font-weight: 600;
@@ -43,13 +68,17 @@ h2, h3 {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-
+/* Answer styling */
 .answer {
-  background-color: #bbf7d0;
-  padding: 12px;
-  border-radius: 8px;
   font-style: italic;
   color: #065f46;
+}
+
+/* Category label */
+.category {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
 }
 
 /* Flashcard actions */
@@ -122,4 +151,3 @@ button {
   font-size: 16px;
   cursor: pointer;
 }
-

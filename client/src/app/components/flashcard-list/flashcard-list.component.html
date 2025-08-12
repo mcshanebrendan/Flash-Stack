@@ -1,4 +1,4 @@
-<h2>📚 FlashStack</h2>
+<h2>FlashStack</h2>
 
 <!-- 🔹 Filter by Category -->
 <label for="categoryFilter">Filter by Category:</label>
@@ -8,41 +8,43 @@
 </select>
 
 <div class="shuffle-button-container">
-  <button (click)="shuffleFlashcards()">🔀 Shuffle Flashcards</button>
+  <button (click)="shuffleFlashcards()"> Shuffle Flashcards</button>
 </div>
 
 <div class="flashcard-container">
-  <div *ngFor="let card of flashcards" class="flashcard">
-    
-    <!-- Non-editing view -->
-    <div *ngIf="editingId !== card.id">
-      <div class="question"><strong>Q:</strong> {{ card.question }}</div>
-      <div class="category"><em>Category: {{ card.category || 'General' }}</em></div>
+  <div *ngFor="let card of flashcards" 
+       class="flashcard" 
+       [class.flipped]="card.flipped" 
+       (click)="toggleFlip(card)">
 
-      <!-- Toggle Button -->
-      <button (click)="toggleAnswer(card)">
-        {{ card.showAnswer ? 'Hide Answer' : 'Show Answer' }}
-      </button>
+    <div class="flashcard-inner">
 
-      <!-- Conditional Answer -->
-      <div class="answer" *ngIf="card.showAnswer">
+      <!-- Front -->
+      <div class="flashcard-front" *ngIf="editingId !== card.id">
+        <div class="question"><strong>Q:</strong> {{ card.question }}</div>
+        <div class="category"><em>Category: {{ card.category || 'General' }}</em></div>
+      </div>
+
+      <!-- Back -->
+      <div class="flashcard-back" *ngIf="editingId !== card.id">
         <strong>A:</strong> {{ card.answer }}
       </div>
-    </div>
 
-    <!-- Editing view -->
-    <div *ngIf="editingId === card.id">
-      <input [(ngModel)]="editedQuestion" placeholder="Edit question" />
-      <input [(ngModel)]="editedAnswer" placeholder="Edit answer" />
-      <input [(ngModel)]="editedCategory" placeholder="Edit category" />
+      <!-- Editing view -->
+      <div class="flashcard-edit" *ngIf="editingId === card.id">
+        <input [(ngModel)]="editedQuestion" placeholder="Edit question" />
+        <input [(ngModel)]="editedAnswer" placeholder="Edit answer" />
+        <input [(ngModel)]="editedCategory" placeholder="Edit category" />
+      </div>
+
     </div>
 
     <!-- Action buttons -->
     <div class="flashcard-actions">
-      <button *ngIf="editingId !== card.id" class="edit-btn" (click)="startEditing(card)">Edit</button>
-      <button *ngIf="editingId === card.id" class="save-btn" (click)="saveEdit(card)">Save</button>
-      <button *ngIf="editingId === card.id" class="cancel-btn" (click)="cancelEdit()">Cancel</button>
-      <button class="delete-btn" (click)="deleteFlashcard(card.id)">Delete</button>
+      <button *ngIf="editingId !== card.id" class="edit-btn" (click)="startEditing(card); $event.stopPropagation()">Edit</button>
+      <button *ngIf="editingId === card.id" class="save-btn" (click)="saveEdit(card); $event.stopPropagation()">Save</button>
+      <button *ngIf="editingId === card.id" class="cancel-btn" (click)="cancelEdit(); $event.stopPropagation()">Cancel</button>
+      <button class="delete-btn" (click)="deleteFlashcard(card.id); $event.stopPropagation()">Delete</button>
     </div>
 
   </div>

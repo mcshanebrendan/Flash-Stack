@@ -23,6 +23,8 @@ export class FlashcardListComponent implements OnInit {
   editedCategory: string = '';
   selectedCategory = '';
   categories: string[] = [];
+  showAnswer?: boolean;
+  
 
   constructor(private flashcardService: FlashcardService) { }
 
@@ -32,12 +34,16 @@ export class FlashcardListComponent implements OnInit {
 
   loadFlashcards() {
     this.flashcardService.getFlashcards().subscribe(cards => {
-      this.flashcards = cards;
-      this.allFlashcards = [...cards];
+      this.allFlashcards = cards.map(card => ({
+        ...card,
+        flipped: false,
+        showAnswer: false
+      }));
       this.extractCategories();
       this.filterFlashcards();
     });
   }
+
 
   extractCategories() {
     const uniqueCategories = new Set(this.allFlashcards.map(c => c.category || 'General'));
@@ -125,4 +131,9 @@ export class FlashcardListComponent implements OnInit {
       [this.flashcards[i], this.flashcards[j]] = [this.flashcards[j], this.flashcards[i]];
     }
   }
+
+  toggleFlip(card: Flashcard) {
+    card.flipped = !card.flipped;
+  }
+
 }
