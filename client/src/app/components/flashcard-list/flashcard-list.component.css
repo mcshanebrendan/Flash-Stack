@@ -21,7 +21,7 @@ h2, h3 {
   perspective: 1000px;
   width: 100%;
   max-width: 600px;
-  margin: 14px 0;
+  margin: 50px 0;
 }
 
 .flashcard-inner {
@@ -143,11 +143,11 @@ button {
 .shuffle-button-container {
   display: flex;
   justify-content: center;
-  margin: 16px 0;
+  margin: 20px 20px;
 }
 
 .shuffle-button-container button {
-  padding: 10px 16px;
+  padding: 24px 24px;
   font-size: 16px;
   cursor: pointer;
 }
